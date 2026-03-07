@@ -1134,3 +1134,1029 @@ boot();
 </script>
 </body>
 </html>
+
+  .section-label {
+    font-size: 9px; color: var(--fire);
+    letter-spacing: .22em; font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  /* platforms */
+  .platform-grid {
+    display: flex; flex-wrap: wrap; gap: 5px;
+  }
+  .plat-btn {
+    padding: 4px 9px;
+    border-radius: 4px; font-family: inherit;
+    font-size: 10px; cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--muted);
+    transition: all .15s;
+  }
+  .plat-btn.active {
+    border-color: var(--fire);
+    background: rgba(255,60,0,.12);
+    color: #ff6622;
+  }
+
+  /* inputs */
+  label { display: block; font-size: 9px; color: var(--muted); letter-spacing: .16em; margin-bottom: 6px; }
+  input[type=text], textarea {
+    width: 100%; background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text); padding: 9px 11px;
+    border-radius: 6px; font-size: 11px;
+    font-family: 'Courier New', 'Courier', monospace; outline: none;
+    transition: border-color .15s;
+  }
+  input[type=text]:focus, textarea:focus { border-color: #2a2a2a; }
+  input[type=text]::placeholder, textarea::placeholder { color: #2a2a2a; }
+  textarea { resize: vertical; }
+
+  /* run button */
+  #run-btn {
+    width: 100%; padding: 13px;
+    background: linear-gradient(135deg, var(--fire), var(--ember));
+    border: none; color: #000;
+    border-radius: 8px; font-size: 12px;
+    font-weight: 700; font-family: inherit;
+    cursor: pointer; letter-spacing: .1em;
+    box-shadow: 0 0 28px rgba(255,60,0,.25);
+    transition: all .2s;
+  }
+  #run-btn:hover { opacity: .9; box-shadow: 0 0 40px rgba(255,60,0,.4); }
+  #run-btn:disabled { background: var(--dim); color: var(--muted); box-shadow: none; cursor: not-allowed; }
+  #run-btn.abort {
+    background: transparent; color: var(--fire);
+    border: 1px solid var(--fire); box-shadow: none;
+  }
+
+  /* step list */
+  .step-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 8px; border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all .2s; cursor: default;
+  }
+  .step-item.done { cursor: pointer; }
+  .step-item.active { border-color: rgba(255,60,0,.4); background: rgba(255,60,0,.05); }
+  .step-item.done-selected { border-color: rgba(255,60,0,.3); background: rgba(255,60,0,.08); }
+  .step-num {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; flex-shrink: 0;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--muted); transition: all .2s;
+  }
+  .step-num.active {
+    border-color: var(--fire);
+    background: rgba(255,60,0,.15); color: var(--fire);
+  }
+  .step-num.done { background: var(--fire); border-color: var(--fire); color: #000; }
+  .step-name { font-size: 10px; color: var(--muted); letter-spacing: .05em; transition: color .2s; }
+  .step-item.active .step-name, .step-item.done .step-name { color: #ccc; }
+  .step-done-badge { margin-left: auto; font-size: 9px; color: var(--muted); }
+
+  /* progress */
+  #progress-wrap { display: none; }
+  #progress-bar-bg { height: 2px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  #progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--fire), var(--ember)); transition: width .5s ease; }
+  #progress-pct { text-align: right; font-size: 9px; color: var(--muted); margin-top: 4px; }
+
+  /* ── RIGHT PANEL ── */
+  #panel-right { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* tabs */
+  #tabs {
+    display: none;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto; background: var(--surface);
+    flex-shrink: 0;
+  }
+  #tabs::-webkit-scrollbar { height: 0; }
+  .tab-btn {
+    padding: 11px 14px; background: transparent; border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted); font-size: 10px; cursor: default;
+    font-family: inherit; white-space: nowrap;
+    letter-spacing: .05em; transition: all .15s;
+  }
+  .tab-btn.ready { cursor: pointer; color: #888; }
+  .tab-btn.ready:hover { color: #ccc; }
+  .tab-btn.selected { border-bottom-color: var(--fire); color: #ff6622; }
+  .tab-dot { color: var(--fire); margin-left: 3px; }
+
+  /* output */
+  #output-area { flex: 1; padding: 28px; overflow-y: auto; }
+
+  /* idle state */
+  #idle-state {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100%; gap: 24px; text-align: center;
+    opacity: .45;
+  }
+  .idle-scissors { font-size: 72px; filter: grayscale(1); line-height: 1; }
+  .idle-title { font-size: 16px; color: #555; margin-bottom: 6px; }
+  .idle-sub { font-size: 11px; color: #333; }
+  .idle-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px; max-width: 420px; margin-top: 8px;
+  }
+  .idle-chip {
+    padding: 8px 10px; border: 1px solid var(--border);
+    border-radius: 4px; font-size: 10px; color: #333;
+  }
+
+  /* streaming */
+  #stream-area { display: none; }
+  .stream-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  }
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--fire); box-shadow: 0 0 10px var(--fire);
+    animation: pulse 1s infinite;
+  }
+  .stream-label { font-size: 12px; color: #ff6622; letter-spacing: .1em; }
+  #stream-text {
+    font-size: 11px; line-height: 1.85; color: #666;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .cursor {
+    display: inline-block; width: 2px; height: 13px;
+    background: var(--fire); margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+
+  /* result */
+  #result-area { display: none; }
+  .result-header {
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 20px;
+  }
+  .result-title { font-size: 12px; color: #ff6622; letter-spacing: .1em; }
+  #copy-btn {
+    background: transparent; font-family: inherit;
+    font-size: 10px; cursor: pointer; padding: 5px 12px;
+    border-radius: 4px; transition: all .2s;
+    border: 1px solid var(--border); color: var(--muted);
+  }
+  #copy-btn.copied { border-color: #00ff88; color: #00ff88; }
+  #result-text {
+    font-size: 11px; line-height: 1.85; color: #c8c8c8;
+    white-space: pre-wrap; word-break: break-word;
+  }
+
+  /* done overview */
+  #done-area { display: none; }
+  .stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px; margin-bottom: 28px;
+  }
+  .stat-card {
+    padding: 16px; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--surface);
+  }
+  .stat-val {
+    font-family: 'Arial Black', 'Arial Bold', 'Helvetica Neue', sans-serif;
+    font-size: 30px; font-weight: 800;
+    color: var(--fire); line-height: 1; margin-bottom: 5px;
+  }
+  .stat-lbl { font-size: 9px; color: var(--muted); letter-spacing: .12em; }
+  .shortcut-hint { font-size: 9px; color: var(--muted); letter-spacing: .15em; margin-bottom: 12px; }
+  .shortcut-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .shortcut-chip {
+    padding: 7px 14px;
+    background: rgba(255,60,0,.07);
+    border: 1px solid rgba(255,51,0,.18);
+    color: #ff6622; border-radius: 6px; font-size: 11px;
+    cursor: pointer; font-family: inherit; transition: all .15s;
+  }
+  .shortcut-chip:hover { background: rgba(255,60,0,.14); }
+  .export-box {
+    padding: 16px; background: rgba(255,60,0,.04);
+    border: 1px solid rgba(255,51,0,.15); border-radius: 8px;
+  }
+  .export-hint { font-size: 11px; color: #ff6622; margin-bottom: 10px; }
+  .export-dl-btn {
+    background: linear-gradient(135deg, var(--fire), var(--ember));
+    border: none; color: #000; padding: 10px 22px;
+    border-radius: 6px; font-family: inherit;
+    font-size: 12px; font-weight: 700;
+    cursor: pointer; letter-spacing: .05em; transition: opacity .2s;
+  }
+  .export-dl-btn:hover { opacity: .88; }
+
+  /* ── SOURCE TABS ── */
+  .src-tabs { display: flex; gap: 0; margin-bottom: 14px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .src-tab {
+    flex: 1; padding: 7px 6px; background: transparent;
+    border: none; color: var(--muted); font-family: inherit;
+    font-size: 10px; cursor: pointer; letter-spacing: .07em;
+    transition: all .15s; text-align: center;
+  }
+  .src-tab.active { background: rgba(255,60,0,.15); color: #ff6622; }
+
+  /* ── DROP ZONE ── */
+  #drop-zone {
+    border: 1px dashed #2a2a2a; border-radius: 8px;
+    padding: 20px 12px; text-align: center;
+    cursor: pointer; transition: all .2s;
+    background: var(--surface2);
+    position: relative;
+  }
+  #drop-zone:hover, #drop-zone.drag-over {
+    border-color: var(--fire);
+    background: rgba(255,60,0,.06);
+  }
+  #drop-zone input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .drop-icon { font-size: 28px; margin-bottom: 8px; line-height: 1; }
+  .drop-title { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .drop-sub { font-size: 9px; color: var(--muted); letter-spacing: .1em; }
+  .drop-formats { font-size: 9px; color: #2a2a2a; margin-top: 6px; letter-spacing: .05em; }
+
+  /* ── FILE PREVIEW ── */
+  #file-preview {
+    display: none;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 12px;
+    gap: 10px; align-items: center;
+  }
+  .file-thumb {
+    width: 36px; height: 36px; border-radius: 4px;
+    background: rgba(255,60,0,.12); border: 1px solid rgba(255,60,0,.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .file-info { flex: 1; overflow: hidden; }
+  .file-name { font-size: 11px; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .file-meta { font-size: 9px; color: var(--muted); margin-top: 2px; letter-spacing: .05em; }
+  .file-clear {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted); font-size: 10px; cursor: pointer;
+    padding: 3px 8px; border-radius: 3px; font-family: inherit;
+    flex-shrink: 0; transition: all .15s;
+  }
+  .file-clear:hover { border-color: var(--fire); color: var(--fire); }
+
+  /* ── PROCESSING BAR ── */
+  #media-processing {
+    display: none; background: rgba(255,60,0,.05);
+    border: 1px solid rgba(255,60,0,.15); border-radius: 6px;
+    padding: 12px; text-align: center;
+  }
+  .proc-label { font-size: 10px; color: #ff6622; letter-spacing: .1em; margin-bottom: 8px; }
+  .proc-bar-bg { height: 2px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .proc-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--fire), var(--ember)); transition: width .4s ease; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+  @keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0} }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+  @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+
+  .fade-in { animation: fadeIn .25s ease forwards; }
+
+  /* ── SCANLINES overlay ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,.06) 2px, rgba(0,0,0,.06) 4px
+    );
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-mark">✂</div>
+    <div class="logo-text">
+      <div class="logo-title">VIRAL CLIP MACHINE</div>
+      <div class="logo-sub">CONTENT EXTRACTION ENGINE v1.0</div>
+    </div>
+    <div class="header-spacer"></div>
+    <div id="api-pill">
+      <div class="key-dot" id="key-dot"></div>
+      <input type="text" id="api-key" placeholder="sk-ant-api... (paste your Anthropic key)" autocomplete="off" spellcheck="false" />
+    </div>
+    <button id="export-btn" onclick="exportAll()">⬇ EXPORT ALL</button>
+  </header>
+
+  <!-- BODY -->
+  <div id="body">
+
+    <!-- LEFT PANEL -->
+    <div id="panel-left">
+
+      <div class="section-label">// INPUT SOURCE</div>
+
+      <!-- Platform -->
+      <div>
+        <label>PLATFORM</label>
+        <div class="platform-grid" id="platforms"></div>
+      </div>
+
+      <!-- Source mode tabs -->
+      <div class="src-tabs">
+        <button class="src-tab active" id="src-tab-url"    onclick="switchSrc('url')">🔗 URL</button>
+        <button class="src-tab"        id="src-tab-upload" onclick="switchSrc('upload')">📁 UPLOAD</button>
+        <button class="src-tab"        id="src-tab-text"   onclick="switchSrc('text')">📝 TRANSCRIPT</button>
+      </div>
+
+      <!-- URL panel -->
+      <div id="src-url">
+        <label>VIDEO URL / BOUNTY LINK</label>
+        <input type="text" id="url-input" placeholder="https://youtube.com/watch?v=..." />
+      </div>
+
+      <!-- Upload panel -->
+      <div id="src-upload" style="display:none">
+        <label>UPLOAD VIDEO / AUDIO FILE</label>
+        <div id="drop-zone"
+          ondragover="handleDragOver(event)"
+          ondragleave="handleDragLeave(event)"
+          ondrop="handleDrop(event)">
+          <input type="file" id="file-input" accept="video/*,audio/*,.mp4,.mov,.avi,.mkv,.webm,.mp3,.wav,.m4a,.aac,.ogg" onchange="handleFileSelect(event)" />
+          <div class="drop-icon">🎬</div>
+          <div class="drop-title">Drop video or audio here</div>
+          <div class="drop-sub">OR CLICK TO BROWSE</div>
+          <div class="drop-formats">MP4 · MOV · AVI · MKV · WEBM · MP3 · WAV · M4A · AAC</div>
+        </div>
+        <div id="file-preview" style="display:none">
+          <div class="file-thumb" id="file-thumb">🎬</div>
+          <div class="file-info">
+            <div class="file-name" id="file-name">video.mp4</div>
+            <div class="file-meta" id="file-meta">0 MB</div>
+          </div>
+          <button class="file-clear" onclick="clearFile()">✕</button>
+        </div>
+        <div id="media-processing" style="display:none">
+          <div class="proc-label" id="proc-label">⚙ PROCESSING MEDIA…</div>
+          <div class="proc-bar-bg"><div class="proc-bar" id="proc-bar"></div></div>
+        </div>
+      </div>
+
+      <!-- Transcript panel -->
+      <div id="src-text" style="display:none">
+        <label>PASTE TRANSCRIPT <span style="color:#252525">(RECOMMENDED)</span></label>
+        <textarea id="transcript-input" rows="7" placeholder="Paste video transcript here for best results…"></textarea>
+      </div>
+
+      <!-- Notes -->
+      <div>
+        <label>CONTEXT / NOTES</label>
+        <textarea id="notes-input" rows="3" placeholder="Target audience, niche, monetization goals…"></textarea>
+      </div>
+
+      <!-- Run -->
+      <button id="run-btn" onclick="toggleRun()" disabled>▶ EXTRACT VIRAL CONTENT</button>
+
+      <!-- Progress -->
+      <div id="progress-wrap">
+        <div id="progress-bar-bg"><div id="progress-bar"></div></div>
+        <div id="progress-pct">0%</div>
+      </div>
+
+      <!-- Steps -->
+      <div id="steps-list">
+        <!-- injected by JS -->
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div id="panel-right">
+      <div id="tabs"><!-- injected --></div>
+      <div id="output-area">
+
+        <!-- IDLE -->
+        <div id="idle-state">
+          <div class="idle-scissors">✂️</div>
+          <div>
+            <div class="idle-title">AWAITING VIDEO INPUT</div>
+            <div class="idle-sub">URL · Upload video/audio · Paste transcript → 10 monetizable assets</div>
+          </div>
+          <div class="idle-grid">
+            <div class="idle-chip">10 Viral Clips</div>
+            <div class="idle-chip">50+ Titles</div>
+            <div class="idle-chip">30 Captions</div>
+            <div class="idle-chip">3 X Threads</div>
+            <div class="idle-chip">Timestamps</div>
+            <div class="idle-chip">Full Strategy</div>
+          </div>
+        </div>
+
+        <!-- STREAMING -->
+        <div id="stream-area">
+          <div class="stream-header">
+            <div class="live-dot"></div>
+            <div class="stream-label" id="stream-label">EXTRACTING…</div>
+          </div>
+          <pre id="stream-text"></pre><span class="cursor" id="cursor"></span>
+        </div>
+
+        <!-- RESULT -->
+        <div id="result-area">
+          <div class="result-header">
+            <div class="result-title" id="result-title"></div>
+            <button id="copy-btn" onclick="copyResult()">COPY ALL</button>
+          </div>
+          <pre id="result-text"></pre>
+        </div>
+
+        <!-- DONE -->
+        <div id="done-area">
+          <div class="stats-grid" id="stats-grid"></div>
+          <div class="shortcut-hint">// SELECT A TAB ABOVE TO VIEW OUTPUTS</div>
+          <div class="shortcut-chips" id="shortcut-chips"></div>
+          <div class="export-box">
+            <div class="export-hint">⬇ Export full content package</div>
+            <button class="export-dl-btn" onclick="exportAll()">DOWNLOAD CONTENT PACKAGE (.TXT)</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+const STATE = {
+  platform: 'YouTube',
+  outputs: {},
+  phase: 'idle',
+  activeTab: null,
+  abort: false,
+  srcMode: 'url',          // 'url' | 'upload' | 'text'
+  uploadedFile: null,      // File object
+  uploadedBase64: null,    // base64 string of audio extracted for API
+  uploadedMime: null,      // mime type
+  uploadedName: '',
+  extractedTranscript: '', // transcript extracted from uploaded media
+};
+
+const PLATFORMS = ['YouTube','TikTok','Twitter/X','Instagram','Podcast','Bounty','Other'];
+const STEPS = [
+  { id:'transcript', label:'Transcript',     icon:'📝' },
+  { id:'moments',    label:'Viral Moments',  icon:'⚡' },
+  { id:'clips',      label:'Clip Cuts',      icon:'✂️' },
+  { id:'captions',   label:'Captions',       icon:'💬' },
+  { id:'titles',     label:'Titles & Hooks', icon:'🎯' },
+  { id:'threads',    label:'X Threads',      icon:'𝕏'  },
+  { id:'package',    label:'Content Package',icon:'📦' },
+];
+const STATS = [
+  { label:'Viral Moments',   value:'10'  },
+  { label:'Clip Blueprints', value:'10'  },
+  { label:'Caption Variants',value:'30'  },
+  { label:'Title Options',   value:'50+' },
+  { label:'Hook Variations', value:'50+' },
+  { label:'X Threads',       value:'3'   },
+];
+
+// ── BOOT ──────────────────────────────────────────────────────────────────
+function boot() {
+  const pg = document.getElementById('platforms');
+  PLATFORMS.forEach(p => {
+    const b = document.createElement('button');
+    b.className = 'plat-btn' + (p === STATE.platform ? ' active' : '');
+    b.textContent = p; b.onclick = () => selectPlatform(p);
+    pg.appendChild(b);
+  });
+
+  const sl = document.getElementById('steps-list');
+  STEPS.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'step-item'; div.id = 'step-' + s.id;
+    div.innerHTML = `<div class="step-num" id="snum-${s.id}">${i+1}</div>
+      <span class="step-name">${s.icon} ${s.label}</span>
+      <span class="step-done-badge" id="sbadge-${s.id}"></span>`;
+    div.onclick = () => { if(STATE.outputs[s.id]) selectTab(s.id); };
+    sl.appendChild(div);
+  });
+
+  const tabs = document.getElementById('tabs');
+  STEPS.forEach(s => {
+    const b = document.createElement('button');
+    b.className = 'tab-btn'; b.id = 'tab-' + s.id;
+    b.innerHTML = `${s.icon} ${s.label}`;
+    b.onclick = () => { if(STATE.outputs[s.id]) selectTab(s.id); };
+    tabs.appendChild(b);
+  });
+
+  const sg = document.getElementById('stats-grid');
+  STATS.forEach(s => {
+    sg.innerHTML += `<div class="stat-card"><div class="stat-val">${s.value}</div><div class="stat-lbl">${s.label}</div></div>`;
+  });
+
+  document.getElementById('api-key').addEventListener('input', checkReady);
+  document.getElementById('url-input').addEventListener('input', checkReady);
+  document.getElementById('transcript-input').addEventListener('input', checkReady);
+  checkReady();
+}
+
+// ── SOURCE MODE ────────────────────────────────────────────────────────────
+function switchSrc(mode) {
+  STATE.srcMode = mode;
+  ['url','upload','text'].forEach(m => {
+    document.getElementById('src-' + m).style.display = m === mode ? 'block' : 'none';
+    document.getElementById('src-tab-' + m).className = 'src-tab' + (m === mode ? ' active' : '');
+  });
+  checkReady();
+}
+
+// ── DRAG & DROP ───────────────────────────────────────────────────────────
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.add('drag-over');
+}
+function handleDragLeave(e) {
+  document.getElementById('drop-zone').classList.remove('drag-over');
+}
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+}
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (file) processFile(file);
+}
+
+function clearFile() {
+  STATE.uploadedFile = null;
+  STATE.uploadedBase64 = null;
+  STATE.uploadedMime = null;
+  STATE.uploadedName = '';
+  STATE.extractedTranscript = '';
+  document.getElementById('file-preview').style.display = 'none';
+  document.getElementById('drop-zone').style.display = 'block';
+  document.getElementById('file-input').value = '';
+  document.getElementById('media-processing').style.display = 'none';
+  checkReady();
+}
+
+function formatBytes(bytes) {
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/(1024*1024)).toFixed(1) + ' MB';
+}
+
+async function processFile(file) {
+  const isVideo = file.type.startsWith('video/');
+  const isAudio = file.type.startsWith('audio/');
+  if (!isVideo && !isAudio) { alert('Please upload a video or audio file.'); return; }
+
+  STATE.uploadedFile = file;
+  STATE.uploadedName = file.name;
+
+  // show preview card
+  document.getElementById('drop-zone').style.display = 'none';
+  const prev = document.getElementById('file-preview');
+  prev.style.display = 'flex';
+  document.getElementById('file-thumb').textContent = isVideo ? '🎬' : '🎵';
+  document.getElementById('file-name').textContent = file.name;
+  document.getElementById('file-meta').textContent = formatBytes(file.size) + ' · ' + (isVideo ? 'VIDEO' : 'AUDIO');
+
+  // Show processing indicator
+  const proc = document.getElementById('media-processing');
+  const procLabel = document.getElementById('proc-label');
+  const procBar = document.getElementById('proc-bar');
+  proc.style.display = 'block';
+  procLabel.textContent = '⚙ READING FILE…';
+  procBar.style.width = '20%';
+
+  // For video files, we need to extract audio. For audio, read directly.
+  // We'll convert to base64 and send to Claude's vision/document API.
+  // Claude supports audio files directly via the messages API.
+  try {
+    procLabel.textContent = isVideo ? '⚙ EXTRACTING AUDIO FROM VIDEO…' : '⚙ LOADING AUDIO…';
+    procBar.style.width = '50%';
+
+    let audioBlob = file;
+    let mimeType = file.type;
+
+    // If video, extract audio using Web Audio API + MediaRecorder
+    if (isVideo) {
+      try {
+        audioBlob = await extractAudioFromVideo(file, (p) => {
+          procBar.style.width = (50 + p * 40) + '%';
+        });
+        mimeType = 'audio/webm';
+      } catch(e) {
+        // fallback: send the whole video file as base64 (works if small enough)
+        audioBlob = file;
+        mimeType = file.type;
+      }
+    }
+
+    procLabel.textContent = '⚙ ENCODING…';
+    procBar.style.width = '85%';
+
+    const base64 = await fileToBase64(audioBlob);
+    STATE.uploadedBase64 = base64;
+    STATE.uploadedMime = mimeType || 'audio/webm';
+
+    procBar.style.width = '100%';
+    procLabel.textContent = '✓ READY TO EXTRACT';
+
+    setTimeout(() => { proc.style.display = 'none'; }, 1200);
+    checkReady();
+  } catch(e) {
+    procLabel.textContent = '✗ ERROR: ' + e.message;
+    procBar.style.background = '#ff0044';
+  }
+}
+
+// Extract audio track from video using Web Audio API
+async function extractAudioFromVideo(videoFile, onProgress) {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement('video');
+    const url = URL.createObjectURL(videoFile);
+    video.src = url;
+    video.muted = false;
+    video.crossOrigin = 'anonymous';
+
+    video.onloadedmetadata = async () => {
+      try {
+        const duration = video.duration;
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        const dest = ctx.createMediaStreamDestination();
+        const source = ctx.createMediaElementSource(video);
+        source.connect(dest);
+        source.connect(ctx.destination);
+
+        const recorder = new MediaRecorder(dest.stream, { mimeType: 'audio/webm' });
+        const chunks = [];
+        recorder.ondataavailable = e => chunks.push(e.data);
+        recorder.onstop = () => {
+          URL.revokeObjectURL(url);
+          resolve(new Blob(chunks, { type: 'audio/webm' }));
+        };
+
+        recorder.start();
+        video.playbackRate = 16; // fast extract
+        video.play();
+
+        const interval = setInterval(() => {
+          onProgress && onProgress(Math.min((video.currentTime / duration), 0.99));
+        }, 200);
+
+        video.onended = () => {
+          clearInterval(interval);
+          recorder.stop();
+          ctx.close();
+        };
+
+        // Fallback timeout
+        setTimeout(() => {
+          if (recorder.state === 'recording') {
+            clearInterval(interval);
+            recorder.stop();
+            ctx.close();
+          }
+        }, Math.min(duration * 1000 / 16 + 5000, 120000));
+
+      } catch(e) { reject(e); }
+    };
+    video.onerror = () => reject(new Error('Could not load video'));
+  });
+}
+
+function fileToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = () => reject(new Error('Read failed'));
+    reader.readAsDataURL(blob);
+  });
+}
+
+// ── READY CHECK ──────────────────────────────────────────────────────────
+function checkReady() {
+  const key  = document.getElementById('api-key').value.trim();
+  const url  = document.getElementById('url-input').value.trim();
+  const tx   = document.getElementById('transcript-input').value.trim();
+  const hasUpload = !!STATE.uploadedBase64;
+  const dot  = document.getElementById('key-dot');
+  const btn  = document.getElementById('run-btn');
+  dot.className = 'key-dot' + (key ? ' active' : '');
+  const hasSource = (STATE.srcMode === 'url' && url) ||
+                    (STATE.srcMode === 'upload' && hasUpload) ||
+                    (STATE.srcMode === 'text' && tx);
+  btn.disabled = !(key && hasSource);
+}
+
+function selectPlatform(p) {
+  STATE.platform = p;
+  document.querySelectorAll('.plat-btn').forEach(b => {
+    b.className = 'plat-btn' + (b.textContent === p ? ' active' : '');
+  });
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────
+function selectTab(id) {
+  STATE.activeTab = id;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('selected'));
+  const t = document.getElementById('tab-' + id);
+  if (t) t.classList.add('selected');
+  STEPS.forEach(s => { const si = document.getElementById('step-' + s.id); if (si) si.classList.remove('done-selected'); });
+  const si = document.getElementById('step-' + id);
+  if (si) si.classList.add('done-selected');
+  showPanel('result');
+  document.getElementById('result-title').textContent = (STEPS.find(s=>s.id===id)?.icon||'') + ' ' + (STEPS.find(s=>s.id===id)?.label?.toUpperCase()||'');
+  document.getElementById('result-text').textContent = STATE.outputs[id] || '';
+  document.getElementById('copy-btn').className = '';
+  document.getElementById('copy-btn').textContent = 'COPY ALL';
+}
+
+// ── PANELS ────────────────────────────────────────────────────────────────
+function showPanel(which) {
+  ['idle-state','stream-area','result-area','done-area'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  const map = { idle:'idle-state', stream:'stream-area', result:'result-area', done:'done-area' };
+  const el = document.getElementById(map[which]);
+  if (el) { el.style.display = 'block'; el.classList.add('fade-in'); }
+}
+
+// ── STEP UI ───────────────────────────────────────────────────────────────
+function setStepActive(id) {
+  STEPS.forEach(s => {
+    const el = document.getElementById('step-' + s.id);
+    const num = document.getElementById('snum-' + s.id);
+    if (!el || !num) return;
+    el.classList.toggle('active', s.id === id);
+    if (!STATE.outputs[s.id]) {
+      if (s.id === id) {
+        num.className = 'step-num active';
+        num.innerHTML = '<div style="width:6px;height:6px;border-radius:50%;background:var(--fire);animation:pulse 1s infinite"></div>';
+      } else {
+        num.className = 'step-num';
+        num.textContent = STEPS.indexOf(s) + 1;
+      }
+    }
+  });
+  const s = STEPS.find(x=>x.id===id);
+  if (s) document.getElementById('stream-label').textContent = 'EXTRACTING: ' + s.label.toUpperCase();
+}
+
+function markStepDone(id) {
+  const num=document.getElementById('snum-'+id), badge=document.getElementById('sbadge-'+id),
+        el=document.getElementById('step-'+id), tab=document.getElementById('tab-'+id);
+  if(num){num.className='step-num done';num.textContent='✓';}
+  if(badge) badge.textContent='done';
+  if(el){el.classList.remove('active');el.classList.add('done');}
+  if(tab){
+    tab.classList.add('ready');
+    const dot=document.createElement('span');
+    dot.className='tab-dot';dot.textContent='●';tab.appendChild(dot);
+  }
+}
+
+function setProgress(pct) {
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+}
+
+// ── CLAUDE API ────────────────────────────────────────────────────────────
+async function callClaude(sys, contentArray, onChunk) {
+  const key = document.getElementById('api-key').value.trim();
+  // contentArray can be array of content blocks or a plain string
+  const msgContent = typeof contentArray === 'string'
+    ? [{ type: 'text', text: contentArray }]
+    : contentArray;
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 4000,
+      stream: true,
+      system: sys,
+      messages: [{ role: 'user', content: msgContent }],
+    }),
+  });
+  if (!res.ok) throw new Error('API ' + res.status + ': ' + await res.text());
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let full = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    const lines = decoder.decode(value).split('\n');
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        try {
+          const d = JSON.parse(line.slice(6));
+          if (d.type === 'content_block_delta' && d.delta?.text) {
+            full += d.delta.text;
+            onChunk(full);
+          }
+        } catch {}
+      }
+    }
+  }
+  return full;
+}
+
+// Build content array for a step — injects media for step 1, text for rest
+function buildContent(stepIndex, prompt) {
+  if (STATE.srcMode === 'upload' && STATE.uploadedBase64) {
+    // For transcript step (0), include the audio file
+    if (stepIndex === 0) {
+      const isAudio = STATE.uploadedMime.startsWith('audio/');
+      if (isAudio) {
+        return [
+          {
+            type: 'document',
+            source: {
+              type: 'base64',
+              media_type: STATE.uploadedMime,
+              data: STATE.uploadedBase64,
+            },
+          },
+          { type: 'text', text: prompt },
+        ];
+      } else {
+        // Video fallback — send as base64 image of first frame (text only with note)
+        return [{ type: 'text', text: `[UPLOADED VIDEO FILE: ${STATE.uploadedName}]\n\n` + prompt }];
+      }
+    }
+    // Subsequent steps use the extracted transcript context
+    const txCtx = STATE.extractedTranscript
+      ? `TRANSCRIPT (extracted from uploaded file "${STATE.uploadedName}"):\n${STATE.extractedTranscript}\n\n`
+      : `UPLOADED MEDIA FILE: ${STATE.uploadedName}\nPLATFORM: ${STATE.platform}\n\n`;
+    return [{ type: 'text', text: txCtx + prompt }];
+  }
+  return [{ type: 'text', text: prompt }];
+}
+
+// ── MAIN RUN ──────────────────────────────────────────────────────────────
+async function run() {
+  const url   = document.getElementById('url-input').value.trim();
+  const tx    = document.getElementById('transcript-input').value.trim();
+  const notes = document.getElementById('notes-input').value.trim();
+
+  STATE.abort = false;
+  STATE.outputs = {};
+  STATE.phase = 'running';
+  STATE.activeTab = null;
+  STATE.extractedTranscript = '';
+
+  // reset steps UI
+  STEPS.forEach((s,i) => {
+    const num=document.getElementById('snum-'+s.id), badge=document.getElementById('sbadge-'+s.id),
+          el=document.getElementById('step-'+s.id), tab=document.getElementById('tab-'+s.id);
+    if(num){num.className='step-num';num.textContent=i+1;}
+    if(badge) badge.textContent='';
+    if(el) el.classList.remove('active','done','done-selected');
+    if(tab){ tab.className='tab-btn'; const dot=tab.querySelector('.tab-dot'); if(dot) dot.remove(); }
+  });
+
+  document.getElementById('tabs').style.display = 'flex';
+  document.getElementById('progress-wrap').style.display = 'block';
+  document.getElementById('export-btn').style.display = 'none';
+  setProgress(0);
+  showPanel('stream');
+
+  // Build context string
+  let ctx;
+  if (STATE.srcMode === 'upload' && STATE.uploadedBase64) {
+    ctx = `UPLOADED MEDIA: ${STATE.uploadedName}\nPLATFORM: ${STATE.platform}\nADDITIONAL NOTES: ${notes||'none'}`;
+  } else if (STATE.srcMode === 'text' && tx) {
+    ctx = `TRANSCRIPT PROVIDED:\n${tx}`;
+  } else {
+    ctx = `VIDEO SOURCE: ${url}\nPLATFORM: ${STATE.platform}\nADDITIONAL NOTES: ${notes||'none'}`;
+  }
+
+  const sys = `You are a world-class viral content strategist and editor who has helped creators get 100M+ views.
+You analyze long-form video content and extract maximum monetizable value from every second.
+Your outputs are specific, actionable, and optimized for virality.
+Be extremely detailed and practical. Format output clearly with numbered items, timestamps, and specific text.`;
+
+  const stepPrompts = [
+    `${ctx}\n\nSTEP 1: TRANSCRIPT EXTRACTION & CLEANUP
+${STATE.srcMode === 'upload' ? 'Listen to the uploaded audio/video file and produce a full verbatim transcript.' : 'If a transcript was provided, format it cleanly. If only a URL was given, create a structural breakdown.'}
+Format with timestamps [00:00] Speaker: text. Be thorough — capture every sentence.`,
+    `${ctx}\n\nSTEP 2: VIRAL MOMENT DETECTION\nIdentify exactly 10 viral-worthy moments. For each:\n🔥 MOMENT #[N]: [Catchy name]\n⏱️ Timestamp: [start] → [end]\n💡 Why it's viral: [specific reason]\n📊 Virality Score: [1-10]\n🎯 Best platform: [TikTok/Reels/Shorts/Twitter]\n🪝 Hook line: [exact first sentence]\n\nRank from highest to lowest virality potential.`,
+    `${ctx}\n\nSTEP 3: CLIP CUTTING BLUEPRINT\nFor each of the 10 viral moments:\n\nCLIP #[N]: [Title]\n📍 In-point: [timestamp + what's happening]\n📍 Out-point: [timestamp + why cut here]\n⏱️ Duration: [X seconds]\n✂️ Edit notes: [B-roll, zoom cues, speed ramps]\n🎵 Music mood: [energy + genre]\n📱 Format: [9:16/16:9/1:1] + [reframing notes]\n🎨 Thumbnail moment: [exact frame description]`,
+    `${ctx}\n\nSTEP 4: CAPTION STYLES\nFor each of the 10 clips:\n\nCLIP #[N] CAPTIONS:\n━━━━━━━━━━━━━━━━━━\n🔥 HYPE VERSION: [High energy, emojis, CAPS]\n💎 AUTHORITY VERSION: [Professional, credibility]\n🤣 RELATABLE VERSION: [Conversational, funny]\n\nEach: Hook + Body (2-3 lines) + CTA + 5 hashtags`,
+    `${ctx}\n\nSTEP 5: TITLES & HOOKS ARSENAL\nFor each clip:\n\nCLIP #[N] TITLE ARSENAL:\n━━━━━━━━━━━━━━━━━━━━━━\n📺 YouTube title (SEO, 60 chars):\n🎵 TikTok title (curiosity-gap):\n📰 Twitter title (provocative):\n📱 Reels title (emotional):\n\nHOOKS:\n• Pattern interrupt:\n• Question:\n• Statistic:\n• Controversy:\n• Story:\n\n🏷️ THUMBNAIL TEXT (max 5 words):\n1.\n2.\n3.`,
+    `${ctx}\n\nSTEP 6: X/TWITTER THREAD TEMPLATES\nGenerate 3 complete threads:\n\nTHREAD #1 — VALUE BOMB (educational, 8-12 tweets)\nTHREAD #2 — STORY THREAD (narrative, 8-12 tweets)\nTHREAD #3 — CONTROVERSY/HOT TAKE (8-12 tweets)\n\nEach tweet on its own line. Include suggested polls where relevant.`,
+    `${ctx}\n\nSTEP 7: COMPLETE CONTENT PACKAGE SUMMARY\n\n📦 CONTENT PACKAGE OVERVIEW\nSource: [title/filename]\nTotal assets: [count]\n\n📅 7-DAY POSTING SCHEDULE:\n[Day 1-7: platform, clip#, caption version, post time, expected reach]\n\n📊 PERFORMANCE PREDICTIONS:\n• Highest virality: Clip #[n] — [reason]\n• Best for growth: Clip #[n] — [reason]\n• Best for monetization: Clip #[n] — [reason]\n• Best for brand deals: Clip #[n] — [reason]\n\n🔁 REPURPOSING MAP\n💰 MONETIZATION ANGLES\n📋 ASSET CHECKLIST`,
+  ];
+
+  const streamEl = document.getElementById('stream-text');
+  const cursor   = document.getElementById('cursor');
+
+  for (let i = 0; i < stepPrompts.length; i++) {
+    if (STATE.abort) break;
+    const stepId = STEPS[i].id;
+    setStepActive(stepId);
+    setProgress(Math.round((i / stepPrompts.length) * 100));
+    streamEl.textContent = '';
+    cursor.style.display = 'inline-block';
+
+    try {
+      const content = buildContent(i, stepPrompts[i]);
+      const result = await callClaude(sys, content, (chunk) => {
+        streamEl.textContent = chunk;
+      });
+      STATE.outputs[stepId] = result;
+      // Cache transcript for subsequent steps when using upload
+      if (i === 0 && STATE.srcMode === 'upload') {
+        STATE.extractedTranscript = result;
+      }
+      markStepDone(stepId);
+    } catch(e) {
+      STATE.outputs[stepId] = 'Error: ' + e.message;
+      markStepDone(stepId);
+    }
+  }
+
+  setProgress(100);
+  cursor.style.display = 'none';
+  STATE.phase = 'done';
+
+  const chips = document.getElementById('shortcut-chips');
+  chips.innerHTML = '';
+  STEPS.forEach(s => {
+    if (STATE.outputs[s.id]) {
+      const b = document.createElement('button');
+      b.className = 'shortcut-chip';
+      b.textContent = s.icon + ' ' + s.label;
+      b.onclick = () => selectTab(s.id);
+      chips.appendChild(b);
+    }
+  });
+
+  document.getElementById('export-btn').style.display = 'block';
+  showPanel('done');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('selected'));
+}
+
+// ── TOGGLE RUN / ABORT ────────────────────────────────────────────────────
+function toggleRun() {
+  if (STATE.phase === 'running') {
+    STATE.abort = true; STATE.phase = 'idle';
+    const btn = document.getElementById('run-btn');
+    btn.textContent = '▶ EXTRACT VIRAL CONTENT';
+    btn.classList.remove('abort');
+    return;
+  }
+  const btn = document.getElementById('run-btn');
+  btn.textContent = '■ ABORT EXTRACTION';
+  btn.classList.add('abort');
+  run().finally(() => {
+    if (STATE.phase !== 'done') return;
+    btn.textContent = '▶ EXTRACT VIRAL CONTENT';
+    btn.classList.remove('abort');
+  });
+}
+
+// ── COPY ─────────────────────────────────────────────────────────────────
+function copyResult() {
+  const text = document.getElementById('result-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ COPIED'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'COPY ALL'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ── EXPORT ────────────────────────────────────────────────────────────────
+function exportAll() {
+  const lines = STEPS
+    .filter(s => STATE.outputs[s.id])
+    .map(s => '═'.repeat(60) + '\n' + s.icon + ' ' + s.label.toUpperCase() + '\n' + '═'.repeat(60) + '\n\n' + STATE.outputs[s.id] + '\n\n')
+    .join('');
+  const blob = new Blob([lines], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'viral-content-package-' + Date.now() + '.txt';
+  a.click();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+boot();
+</script>
+</body>
+</html>
